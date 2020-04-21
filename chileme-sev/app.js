@@ -5,8 +5,6 @@ const mongoose = require('mongoose') //引入mongoose
 const router = require('koa-router')() // 引入路由模块
 const koaBody = require('koa-body') // 引入koa-body插件解析post请求
 
-
-
 // 创建服务器链接
 mongoose.connect(cfg.path)
 mongoose.connection.on('error',()=>{
