@@ -3,6 +3,8 @@ chileme-cli/node_modules
 chileme-sev/node_modules
 chileme-cli/dist
 
+
+diancan.txt
 # local env files
 .env.local
 .env.*.local
