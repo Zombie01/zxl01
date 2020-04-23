@@ -1,4 +1,5 @@
 const router = require('koa-router')() // 引入路由模块
+const User = require('../controller/user_controller') // 引入用户controller
 // 写接口
 // test get
 router.get('/',async ctx => {
@@ -9,6 +10,8 @@ router.get('/test',async ctx => {
 })
 
 // 用户接口
+router.post('/api/user/register', User.register) //注册接口
+router.post('/api/user/login', User.login) //登录接口
 
 
 // 商品接口

@@ -8,10 +8,10 @@ const koaBody = require('koa-body') // 引入koa-body插件解析post请求
 // 创建服务器链接
 mongoose.connect(cfg.path)
 mongoose.connection.on('error',()=>{
-    console.log('服务器链接错误')
+    console.log('数据库链接错误')
 })
 mongoose.connection.once('open',()=>{
-    console.log('服务器已链接')
+    console.log('数据库已链接')
 })
 App.use(koaBody()) //配置koa-body
 App.use(router.routes()).use(router.allowedMethods())   /*启动路由*/
