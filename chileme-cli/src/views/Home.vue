@@ -1,17 +1,32 @@
 <template lang='pug'>
   div.home
-    img(alt="Vue logo" src="../assets/logo.png")
-    HelloWorld(msg="Welcome to Your Vue.js App")
+      el-row
+          el-col(:span='1')
+              div.grid-left
+          el-col(:span='23')
+              div.grid-right 
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+
 
 export default {
   name: 'Home',
-  components: {
-    HelloWorld
-  }
+  
 }
 </script>
+<style lang="scss" scoped>
+.home{
+  height: 100%;
+  .el-row,.el-col{
+    height: 100%;
+  }
+  .grid-left,.grid-left{
+    height: 100%;
+  }
+  .grid-left{
+    background: mediumblue;
+  }
+}
+
+</style>
