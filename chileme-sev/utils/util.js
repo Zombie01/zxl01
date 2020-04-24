@@ -11,8 +11,10 @@ const transCode = num =>{
 
 }
 
-// 4.验证手机号的正则
-const regMobile = /^1[3456789]\d{9}$/
+// 4.正则
+const regMobile = /^1[3456789]\d{9}$/ //验证手机号
+const regPassword = /^[a-zA-Z0-9]{6-12}$/  //验证密码 大小写字母或数字 长度在6-12之间
+const regUsername = /^[a-zA-Z0-9\u4e00-\u9fa5]{1,20}$/ // 验证用户名
 
 
 // 5.随机生成6位验证码
@@ -33,6 +35,8 @@ module.exports={
     transTime,
     randomColor,
     transCode,
+    testCode,
     regMobile,
-    testCode
+    regPassword,
+    regUsername
 }
