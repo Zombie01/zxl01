@@ -3,11 +3,11 @@
       el-row
           el-col(:span='1')
               div.grid-left
-                  div.iconfont &#xe642;
-                    i 收银
+                  div.iconfont(@click='jumpTo("/chooseGoods")') &#xe642;
+                    i 点餐
                   div.iconfont &#xe616;
                     i 会员
-                  div.iconfont &#xe65f;
+                  div.iconfont(@click='jumpTo("/stockManagement")') &#xe65f;
                     i 库存
                   div.iconfont &#xe64c;
                     i 报表
@@ -17,6 +17,7 @@
                     i 退出
           el-col(:span='23')
               div.grid-right 
+                  router-view
 </template>
 
 <script>
@@ -24,7 +25,16 @@
 
 export default {
   name: 'Home',
-  
+  data(){
+    return {
+
+    }
+  },
+  methods:{
+    jumpTo(name){
+      this.$router.push(name)
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
