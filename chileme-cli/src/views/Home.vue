@@ -3,11 +3,13 @@
       el-row
           el-col(:span='1')
               div.grid-left
-                  div.iconfont(@click='jumpTo("/chooseGoods")') &#xe642;
+                  div.iconfont(@click='jumpTo("/chooseGoods")',
+                  :class='link==="/chooseGoods"?"active":""') &#xe642;
                     i 点餐
                   div.iconfont &#xe616;
                     i 会员
-                  div.iconfont(@click='jumpTo("/stockManagement")') &#xe65f;
+                  div.iconfont(@click='jumpTo("/stockManagement")',
+                  :class='link==="/stockManagement"?"active":""') &#xe65f;
                     i 库存
                   div.iconfont &#xe64c;
                     i 报表
@@ -27,11 +29,12 @@ export default {
   name: 'Home',
   data(){
     return {
-
+      link:'',
     }
   },
   methods:{
     jumpTo(name){
+      this.link = name
       this.$router.push(name)
     }
   }
@@ -43,7 +46,7 @@ export default {
   .el-row,.el-col{
     height: 100%;
   }
-  .grid-left,.grid-left{
+  .grid-left,.grid-right{
     height: 100%;
   }
   .grid-left{
@@ -61,11 +64,13 @@ export default {
       i{
         font-size: 16px;
       }
-      &:hover{
+      &:hover,&.active{
         background: rgb(235, 0, 47);
       }
+
     }
   }
+
 }
 
 </style>
