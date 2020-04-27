@@ -13,7 +13,7 @@ const getTestCode = async (ctx,next) => {
     // 获取请求信息
     let data = ctx.request.body
     // 1.验证手机号是否合法 不合法则直接提示手机号输入有问题
-    if(!Util.regMobile.test(ctx.mobile)){ //手机号不合法
+    if(!Util.regMobile.test(data.mobile)){ //手机号不合法
         ctx.body = {
             code:200,
             flag:false,
@@ -37,7 +37,7 @@ const getTestCode = async (ctx,next) => {
     // 3.预注册 （后台操作）
     // >1. 生成验证码
     const testCode = Util.testCode()
-    console.log(testCode)
+    // console.log(testCode)
     // >2. 是否首次获取验证码
     let testCodeRes = await PreRegist.findOne({mobile:data.mobile})
     if(!!testCodeRes){ // 非首次获取验证码
@@ -102,7 +102,7 @@ const register = async ctx => {
     // 获取post请求数据
     let data = ctx.request.body 
     // 验证手机号是否合法 不合法则直接提示手机号输入有问题
-    if(!Util.regMobile.test(ctx.mobile)){ //手机号不合法
+    if(!Util.regMobile.test(data.mobile)){ //手机号不合法
         ctx.body = {
             code:200,
             flag:false,
@@ -172,10 +172,7 @@ const register = async ctx => {
             msg:'请先获取验证码'
         }
     }
-   
-    ctx.body = 'register'
 }
-
 // 完善用户信息
 const collectInfo = async ctx => {
     const data = ctx.request.body
@@ -190,7 +187,7 @@ const collectInfo = async ctx => {
         return 
     }
     // 2.性别是否合法
-    if(data.sex!==0&&data.sex!==1){
+    if(data.sex!=='0'&&data.sex!=='1'){
         ctx.body = {
             code:200,
             flag:false,
@@ -210,6 +207,26 @@ const collectInfo = async ctx => {
         return 
     }
     // 4.更新数据库中的数据
+    await User.updateOne({mobile:data.mobile},{$set:{
+        username:data.username,
+        sex:data.sex,
+        password:data.password
+    }}).then(data => {
+        ctx.body = {
+            code:200,
+            flag:true,
+            type:'success',
+            msg:'注册成功'
+        }
+    }).catch(err => {
+        console.log(err)
+        ctx.body = {
+            code:200,
+            flag:flase,
+            type:'error',
+            msg:'注册失败'
+        }
+    })
 }
 /*
 第一种
@@ -227,7 +244,7 @@ const login = async ctx => {
     const data = ctx.request.body
     // 2.去数据库中查找该用户  若用户不存在   提示用户先去注册 
     // 判断手机号是否合法
-    if(!Util.regMobile.test(ctx.mobile)){ //手机号不合法
+    if(!Util.regMobile.test(data.mobile)){ //手机号不合法
         ctx.body = {
             code:200,
             flag:false,
@@ -240,6 +257,7 @@ const login = async ctx => {
     if(!!res){ //在数据库中找到该用户的信息
         // 3.校验手机号和密码是否匹配   
         if(data.password === res.password){ // 4.若两个值匹配，则返回登录成功 
+            ctx.cookies.set('user',res.mobile)
             ctx.body = {
                 code:200,
                 flag:true,

@@ -5,9 +5,9 @@
             el-form(:model="form",ref="Form",label-width="100px")
                 el-form-item(
                     label="手机号",
-                    prop="mobeli",
+                    prop="mobile",
                     )
-                    el-input(type="text",v-model.number="form.mobeli",autocomplete="off")
+                    el-input(type="text",v-model.number="form.mobile",autocomplete="off")
                 el-form-item(
                     label="密码",
                     prop="password"
@@ -22,14 +22,28 @@ export default {
     data(){
         return{
             form:{
-                mobeli:'',
+                mobile:'',
                 password:''
             }
         }
     },
     methods:{
         loginHandle(){
-
+            this.Axios({
+                method:'POST',
+                url:'/api/user/login',
+                data:{
+                    mobile:this.form.mobile,
+                    password:this.form.password
+                }
+            }).then(data => {
+                console.log(data)
+                if(data.data.flag) this.$router.push('/chooseGoods')
+                else this.$message.error(`${data.data.msg}`)
+                
+            }).catch(err => {
+                this.$message.error('登陆失败请稍后再试')
+            })
         },
         resetForm(formName) {
             this.$refs[formName].resetFields();

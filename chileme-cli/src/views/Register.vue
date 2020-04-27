@@ -21,17 +21,21 @@
                 el-form-item
                     el-button(type="primary",@click="registerHandle('Form')") 提交
                     el-button(@click="resetForm('Form')") 重置
-        el-dialog(title="完善信息",:visible.sync="dialogFormVisible")       
-            el-form(:model="userform",label-width='100px')     
-                el-form-item(label="用户名")
-                    el-input(v-model="form.username",autocomplete="off")
-                el-form-item(label="性别")
+        el-dialog(title="完善信息",:visible.sync="dialogFormVisible",:show-close='false')       
+            el-form(:model="userform",label-width='100px',ref='Userform')     
+                el-form-item(label="用户名",
+                prop="username",
+                :rules="[{ required: true, message: '用户名不能为空'}]"
+                )
+                    el-input(v-model="userform.username",autocomplete="off")
+                el-form-item(label="性别",prop="sex",
+                :rules="[{ required: true, message: '性别不能为空'}]")
                     el-radio(v-model="userform.sex" label="1") 男
                     el-radio(v-model="userform.sex" label="0") 女
-                el-form-item(label="密码")
-                    el-input(type='password',v-model="form.password",autocomplete="off")
+                el-form-item(label="密码",prop='password',:rules="[{ required: true, message: '密码不能为空'}]")
+                    el-input(type='password',v-model="userform.password",autocomplete="off")
             div(slot="footer")
-                el-button(type="primary" @click="dialogFormVisible = false") 确 定    
+                el-button(type="primary" @click="submitUserDate('Userform')") 确 定    
 </template>
 <script>
 export default {
@@ -39,7 +43,7 @@ export default {
         return{
             // 注册表单
             form:{
-                mobile:13333456987, //手机号
+                mobile:'', //手机号
                 testCode:'', // 验证码
             },
             userform:{// 用户信息表单
@@ -64,6 +68,7 @@ export default {
                         }
                     }).then(data => {
                         console.log(data)
+                        this.form.testCode = data.data.data.testCode
                     }).catch(err => {
                         console.log(err)
                     })
@@ -75,11 +80,56 @@ export default {
             
         },
         // 提交注册表单方法
-        registerHandle(formName) {
+        registerHandle(formName) {  
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    // alert('submit!');
-                    this.dialogFormVisible = true
+                    if(!this.form.testCode){
+                        this.$notify({
+                            title: 'tip',
+                            message: '请输入验证码'
+                        });
+                        return false
+                    }
+                    this.Axios({
+                        method:'POST',
+                        url:'/api/user/register',
+                        data:{
+                            mobile:this.form.mobile,
+                            testCode:this.form.testCode
+                        }
+                    }).then(data => {
+                        console.log(data)
+                        this.dialogFormVisible = true
+                    }).catch(err => {
+                        console.log(err)
+                    })
+                    
+                } else {
+                    console.log('error submit!!')
+                    return false;
+                }
+            });
+        },
+        // 提交用户信息
+        submitUserDate(formName){
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                     this.Axios({
+                        method:'POST',
+                        url:'/api/user/collectInfo',
+                        data:{
+                            mobile:this.form.mobile,
+                            username:this.userform.username,
+                            sex:this.userform.sex,
+                            password:this.userform.password
+                        }
+                    }).then(data => {
+                        console.log(data)
+                        // 注册成功 跳转登录
+                        this.$router.push('/login')
+                    }).catch(err => {
+                        console.log(err)
+                    })
                 } else {
                     console.log('error submit!!');
                     return false;
