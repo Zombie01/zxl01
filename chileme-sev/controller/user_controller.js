@@ -136,8 +136,6 @@ const register = async ctx => {
                     createTime : new Date().getTime()
                  })
                  await user.save().then(data => {
-                    // 注册成功后，删除预注册表中的信息
-                    await PreRegist.deleteOne({mobile:data.mobile})
                     ctx.body = {
                         code:200,
                         flag:true,
@@ -153,6 +151,8 @@ const register = async ctx => {
                         msg:'注册失败'
                     }
                  })
+                // 注册成功后，删除预注册表中的信息
+                // await PreRegist.deleteOne({mobile:data.mobile})
             }else{
                 // 不匹配
                 ctx.body = {

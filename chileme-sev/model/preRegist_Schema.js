@@ -8,4 +8,4 @@ let preRegist = new Schema({
     deadDate: Number, //验证码过期时间
 })
 
-module.exports = mongoose.Model('PreRegist',preRegist)
+module.exports = mongoose.model('PreRegist',preRegist)
