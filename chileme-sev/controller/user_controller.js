@@ -13,7 +13,7 @@ const getTestCode = async (ctx,next) => {
     // 获取请求信息
     let data = ctx.request.body
     // 1.验证手机号是否合法 不合法则直接提示手机号输入有问题
-    if(!Util.regMobile,test(ctx.mobile)){ //手机号不合法
+    if(!Util.regMobile.test(ctx.mobile)){ //手机号不合法
         ctx.body = {
             code:200,
             flag:false,
@@ -102,7 +102,7 @@ const register = async ctx => {
     // 获取post请求数据
     let data = ctx.request.body 
     // 验证手机号是否合法 不合法则直接提示手机号输入有问题
-    if(!Util.regMobile,test(ctx.mobile)){ //手机号不合法
+    if(!Util.regMobile.test(ctx.mobile)){ //手机号不合法
         ctx.body = {
             code:200,
             flag:false,
@@ -227,7 +227,7 @@ const login = async ctx => {
     const data = ctx.request.body
     // 2.去数据库中查找该用户  若用户不存在   提示用户先去注册 
     // 判断手机号是否合法
-    if(!Util.regMobile,test(ctx.mobile)){ //手机号不合法
+    if(!Util.regMobile.test(ctx.mobile)){ //手机号不合法
         ctx.body = {
             code:200,
             flag:false,

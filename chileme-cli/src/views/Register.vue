@@ -39,7 +39,7 @@ export default {
         return{
             // 注册表单
             form:{
-                mobile:'', //手机号
+                mobile:13333456987, //手机号
                 testCode:'', // 验证码
             },
             userform:{// 用户信息表单
@@ -57,10 +57,10 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     this.Axios({
-                        methods:'post',
+                        method:'POST',
                         url:'/api/user/getTestCode',
                         data:{
-                            mobile:this.mobile
+                            mobile:this.form.mobile
                         }
                     }).then(data => {
                         console.log(data)
