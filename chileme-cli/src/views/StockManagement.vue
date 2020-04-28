@@ -91,16 +91,51 @@ export default {
     methods:{
         // 提交数据
         submitHandle(){
-
+            this.Axios({
+                method:'POST',
+                url:'/api/goods/addGoods',
+                data:this.form
+            }).then(data => {
+                console.log(data)
+                this.resetHandle()
+                this.getData()
+            }).catch(err => {
+                console.log(err)
+            })
         },
         // 重置表单
         resetHandle(formName){
-
+            this.form = { 
+                goodname :'', 
+                price    :'',  
+                num      :'',  
+                desc     :'',  
+                rate     :'',  // 3-5
+                type     :'',  //食品:food, 饮料:drink, 甜品:sweet, 套餐:combo
+                isOff    :'',  // true/false       
+                percent  :'',  // 2.5 --- 9.1
+                itemType :'',  //特色菜:special、下酒菜:cool 汤羹:soup、主食:normal、 方便菜肴:fast)
+                material :[],  
+                tast     :'',  //偏辣，清单，偏甜 
+            }
+            // console.log(this.$refs[formName])
+            // this.$refs[formName].resetFields()
         },
         // 更新table数据的方法
         getData(){
-            
+            this.Axios({
+                method:'GET',
+                url:'/api/goods/findGoodsList',
+            }).then(data => {
+                console.log(data)
+                this.tableData = data.data.data
+            }).catch(err => {
+                console.log(err)
+            })
         }
+    },
+    mounted(){
+        this.getData()
     }
 }
 </script>
