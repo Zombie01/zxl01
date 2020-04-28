@@ -1,4 +1,5 @@
 /**商品表  goods
+ * goodId     商品id          Number
  * goodname   商品名          String
  * price      商品价格        Number
  * num        商品数量        Number
@@ -14,6 +15,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const goods = new Schema({
+    goodId    : Number,
     goodname  : String,
     price     : Number,
     num       : Number,
