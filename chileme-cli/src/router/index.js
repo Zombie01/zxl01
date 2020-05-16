@@ -22,6 +22,11 @@ Vue.use(VueRouter)
         name:'StockManagement',
         component: () => import('../views/StockManagement.vue')
       },
+      {
+        path:'lifeCycle',
+        name:'LifeCycle',
+        component: () => import('../views/lifecycle.vue')
+      },
     ]
   },
   // 注册

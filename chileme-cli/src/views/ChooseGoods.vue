@@ -12,7 +12,27 @@
                                 span {{`￥${item.price}`}}
                         div.foodstab
                             el-tabs(type="border-card")
-                                el-tab-pane(label="热菜") 热菜
+                                el-tab-pane(label="热菜")
+                                    div.hotbox
+                                        div.foodsCard(v-for='item in hotList',:key='item.id')
+                                            el-row
+                                                el-col(:span="8")
+                                                    div.cardimg
+                                                el-col(:span="16")
+                                                    //- div.cardinfo
+                                                    //-     div.foodname 商品1
+                                                    //-     div.foodmart 材料:葱姜蒜，肉蛋奶
+                                                    //-     div.foodrank 
+                                                    //-         el-rate(v-model="value",disabled)
+                                                    //-     div.foodprice 价格12.5
+                                                    //-     el-button 下单
+                                                    div.cardinfo
+                                                        div.foodname {{item.name}}
+                                                        div.foodmart {{`材料: ${item.material.join(',')}`}}
+                                                        div.foodrank 
+                                                            el-rate(v-model="item.rank",disabled)
+                                                        div.foodprice {{`价格: ${item.price}`}}
+                                                        el-button 下单
                                 el-tab-pane(label="凉菜") 凉菜
                                 el-tab-pane(label="主食") 主食
                                 el-tab-pane(label="饮料") 饮料
@@ -43,6 +63,14 @@ export default {
                 {id:18,name:'银耳汤',price:10},
             ],
             list:[], // 存放点击的商品的数据
+            value:3,
+            hotList:[
+                {id:1,name:'宫保鸡丁',material:['鸡肉','胡萝卜','花生'],rank:3,price:12.5},
+                {id:2,name:'宫保鸭丁',material:['鸭肉','胡萝卜','花生'],rank:3,price:14.5},
+                {id:3,name:'宫保鹅丁',material:['鹅肉','胡萝卜','花生'],rank:3,price:15.5},
+                {id:4,name:'宫保猪丁',material:['猪肉','胡萝卜','花生'],rank:3,price:27.5},
+                {id:5,name:'宫保牛丁',material:['牛肉','胡萝卜','花生'],rank:3,price:40.5},
+            ]
         }
     },
     methods:{
@@ -107,6 +135,47 @@ $h:100%;
                     span{
                         color:red;
                         margin-left: 8px;
+                    }
+                }
+            }
+            .foodstab{
+                flex:1;
+                background: cyan;
+                .hotbox{
+                    min-height: 400px;
+                    display:flex;
+                    justify-content: flex-start;
+                    flex-wrap: wrap;
+                    .foodsCard{
+                        width:350px;
+                        height: 190px;
+                        border:1px solid #000;
+                        background: #f1f1f1;
+                        box-sizing: border-box;
+                        padding:5px;
+                        text-align: left;
+                        margin:15px 10px;
+                        .el-row,.el-col{
+                            height: 100%;
+                        }
+                        .cardimg{
+                            background: cyan;
+                            width:100%;
+                            height: 100%;
+                        }
+                        .cardinfo{
+                            padding-left: 5px;
+                            position:relative;
+                            height: 100%;
+                            .foodname,.foodmart,.foodrank,.foodprice{
+                                margin-bottom: 8px;
+                            }
+                            .el-button{
+                                position:absolute;
+                                right:10px;
+                                bottom:5px;
+                            }
+                        }
                     }
                 }
             }

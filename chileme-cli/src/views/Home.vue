@@ -13,13 +13,15 @@
                     i 库存
                   div.iconfont &#xe64c;
                     i 报表
-                  div.iconfont &#xe600;
+                  div.iconfont(@click='jumpTo("/lifeCycle")',
+                  :class='link==="/lifeCycle"?"active":""') &#xe600;
                     i 辅助
                   div.iconfont &#xe650;
                     i 退出
           el-col(:span='23')
               div.grid-right 
-                  router-view
+                  keep-alive
+                      router-view
 </template>
 
 <script>
