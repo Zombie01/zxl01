@@ -9,7 +9,10 @@
                                 el-table(:data='list',style="width: 100%",border)
                                     el-table-column(prop="name",label="名称",width="180")
                                     el-table-column(prop="price",label="价格")
-
+                                    el-table-column(fixed="right",label="操作",width="100")
+                                        template(slot-scope="scope")
+                                            el-button(type="text",size="small",@click='deleteHandle(scope.row)') 删除
+                            div {{`总价: ${totalPrice}`}}
                         el-tab-pane(label="订单")
                             div 订单
             el-col(:span='16')
@@ -136,6 +139,23 @@ export default {
                 this.list.push(obj)
             }
             console.log(this.list)
+        },
+        deleteHandle(row){
+            for(let i=0;i<this.list.length;i++){
+                if(this.list[i].id === row.id){
+                    this.list.splice(i,1)
+                    break;
+                }
+            }
+        }
+    },
+    computed:{
+        totalPrice(){
+            let price = 0; // 初始订单总价
+            for(let i=0;i<this.list.length;i++){ //将购物车中所有的商品进行遍历
+                price += Number(this.list[i].price) //对每件商品单价进行累加
+            }
+            return price //将计算后的商品总价返回出去
         }
     }
 }
